@@ -23,8 +23,10 @@ class BoardState:
         self.positions[pos.row_num][pos.col_num] = dhunga
 
     def __str__(self) -> str:
-        retval = ""
-        for row in self.positions:
+        retval = "   ".join([f"{i}" for i in range(self.size)])
+        retval = f"    {retval}\n"
+        for index, row in enumerate(self.positions):
             row_str = " | ".join([" " if i is None else i.name for i in row])
-            retval = f"{retval}| {row_str} |\n"
+            retval = f"{retval}{index} | {row_str} |\n"
+            retval = f"{retval}{'-'*35}\n"
         return retval

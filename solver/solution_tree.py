@@ -41,6 +41,7 @@ class SolutionTree:
             print(f"{'x'*60}")
             return node.leaf_node
         if node.level + 1 == level:
+            config.NODES += len(node.childrens)
             for child_node in node.childrens:
                 # add children to child node
                 child_node.add_childrens()
@@ -48,15 +49,28 @@ class SolutionTree:
         else:
             """If not the required level, iterate through all the childrens
             at this level to get to the required level"""
+            num_nodes = len(node.childrens)
+            leaf_count = 0
             for child_node in node.childrens:
-                self.update_children(child_node, level)
+                leaf = self.update_children(child_node, level)
+                if leaf:
+                    leaf_count += 1
+            if leaf_count == num_nodes:
+                node.leaf_node = True
+                return True
         return False
 
     def solve(self) -> None:
         level = 1
-        while level < 61:
+        while level < 30:
             print(f"-- level: {level}")
+            leaf_counts = 0
             for child_node in self.children:
-                self.update_children(node=child_node, level=level)
-
+                leaf = self.update_children(node=child_node, level=level)
+                if leaf:
+                    leaf_counts += 1
+            print(f"-- level: {level} - nodes: {config.NODES}")
+            if leaf_counts == len(self.children):
+                break
             level += 1
+        print(f"-- all leaf nodes by level: {level} for {config.BOARD_SIZE}x{config.BOARD_SIZE}")

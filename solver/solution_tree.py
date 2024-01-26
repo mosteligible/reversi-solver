@@ -50,7 +50,8 @@ class SolutionTree:
             """If not the required level, iterate through all the childrens
             at this level to get to the required level"""
             for child_node in node.childrens:
-                return self.update_children(child_node, level)
+                self.update_children(child_node, level)
+        return False
 
     def solve(self) -> None:
         level = 1
@@ -58,4 +59,5 @@ class SolutionTree:
             print(f"-- level: {level}")
             for child_node in self.children:
                 self.update_children(node=child_node, level=level)
+
             level += 1

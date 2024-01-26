@@ -41,7 +41,6 @@ class SolutionTree:
             print(f"{'x'*60}")
             return node.leaf_node
         if node.level + 1 == level:
-            print(f"node level: {node.level} - childrens: {len(node.childrens)}")
             for child_node in node.childrens:
                 # add children to child node
                 child_node.add_childrens()
@@ -55,7 +54,7 @@ class SolutionTree:
 
     def solve(self) -> None:
         level = 1
-        while level < 66:
+        while level < 61:
             print(f"-- level: {level}")
             for child_node in self.children:
                 self.update_children(node=child_node, level=level)

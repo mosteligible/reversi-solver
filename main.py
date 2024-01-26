@@ -2,7 +2,7 @@ from solver.solution_tree import SolutionTree
 
 
 def main():
-    reversi_solution = SolutionTree()
+    reversi_solution = SolutionTree(8)
     reversi_solution.solve()
 
 

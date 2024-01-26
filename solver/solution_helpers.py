@@ -2,8 +2,8 @@ import config
 from typing import List, Tuple
 from constants import DhungaType
 
-from .board_state import BoardState
-from .position import Position, PositionsManager
+from .position import Position
+from .positions_manager import PositionsManager
 
 
 class SolutionHelper:
@@ -16,7 +16,9 @@ class SolutionHelper:
         if row[0] == dhunga or row[0] == None:
             return False, -1
         for index, dh in enumerate(row[1:]):
-            if dh is not None and dh == dhunga:
+            if dh is None:
+                break
+            elif dh is not None and dh == dhunga:
                 return True, index + 1
         return False, -1
 
@@ -111,33 +113,30 @@ class SolutionHelper:
         return diag1_positions, diag2_positions
 
     @staticmethod
-    def palayable_moves(
+    def playable_moves_from_pos(
         positions: List[List[DhungaType]], dhunga: DhungaType, pos: Position
     ) -> Tuple[PositionsManager, bool]:
+        target_positions = []
         linear_indexes = SolutionHelper.check_in_line(
             positions[pos.row_num], pos.col_num, dhunga
         )
-        linear_positions = [Position(pos.row_num, i) for i in linear_indexes]
+        target_positions.extend([Position(pos.row_num, i) for i in linear_indexes])
         column = SolutionHelper.get_matrix_col(positions, pos.col_num)
         vertical_indexes = SolutionHelper.check_in_line(column, pos.row_num, dhunga)
-        vertical_positions = [Position(i, pos.col_num) for i in vertical_indexes]
+        target_positions.extend([Position(i, pos.col_num) for i in vertical_indexes])
         top_bottom_diagonal, bottom_top_diagonal = SolutionHelper.check_diaognals(
             pos, positions, dhunga
         )
-        match = (
-            linear_positions
-            or vertical_positions
-            or top_bottom_diagonal
-            or bottom_top_diagonal
+        target_positions.extend(top_bottom_diagonal)
+        target_positions.extend(bottom_top_diagonal)
+        match = target_positions != []
+        pm = PositionsManager(
+            position=pos,
+            dhunga=dhunga,
+            target_positions=target_positions,
         )
         return (
-            PositionsManager(
-                position=pos,
-                next_linears=linear_positions,
-                next_verticals=vertical_positions,
-                next_diagonals_top_to_bottom=top_bottom_diagonal,
-                next_diagonals_bottom_to_top=bottom_top_diagonal,
-            ),
+            pm,
             match,
         )
 
@@ -145,12 +144,20 @@ class SolutionHelper:
     def get_matrix_col(
         positions: List[List[DhungaType]], col_index: int
     ) -> List[List[DhungaType]]:
-        return [i[0] for i in zip(positions)][col_index]
+        return [i for i in map(list, zip(*positions))][col_index]
 
     @staticmethod
-    def find_available_moves(board_state: BoardState, dhunga: DhungaType) -> list:
+    def find_available_moves(
+        positions: List[List[Position]], dhunga: DhungaType
+    ) -> List:
         available_moves = []
-        for row_num, row in enumerate(board_state.positions):
+        for row_num, row in enumerate(positions):
             for col_num, col_val in enumerate(row):
                 if col_val is None:
                     cur_pos = Position(row_num, col_num)
+                    playable_move, is_playable = SolutionHelper.playable_moves_from_pos(
+                        positions, dhunga, cur_pos
+                    )
+                    if is_playable:
+                        available_moves.append(playable_move)
+        return available_moves

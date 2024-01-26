@@ -53,7 +53,7 @@ def test_check_in_line_between() -> None:
 
 def test_check_diagonals() -> None:
     board = BoardState()
-    board.update_board(Position(5, 5), DhungaType.o)
+    board.update_position(Position(5, 5), DhungaType.o)
     assert SolutionHelper.check_diaognals(
         Position(2, 2), board.positions, DhungaType.o
     ) == ([Position(5, 5)], [])
@@ -61,20 +61,41 @@ def test_check_diagonals() -> None:
         Position(2, 2), board.positions, DhungaType.x
     ) == ([], [])
 
-    board.update_board(Position(5, 4), DhungaType.x)
+    board.update_position(Position(5, 4), DhungaType.x)
     assert SolutionHelper.check_diaognals(
         Position(3, 2), board.positions, DhungaType.x
     ) == ([Position(5, 4)], [])
-    board.update_board(Position(5, 2), DhungaType.x)
+    board.update_position(Position(5, 2), DhungaType.x)
     assert SolutionHelper.check_diaognals(
         Position(2, 5), board.positions, DhungaType.x
     ) == ([], [Position(5, 2)])
-    board.update_board(Position(1, 6), DhungaType.o)
-    board.update_board(Position(0, 7), DhungaType.x)
-    print(board)
+    board.update_position(Position(1, 6), DhungaType.o)
+    board.update_position(Position(0, 7), DhungaType.x)
     assert SolutionHelper.check_diaognals(
         Position(2, 5), board.positions, DhungaType.x
     ) == ([], [Position(0, 7), Position(5, 2)])
+
+    # edges check
+    board = BoardState()
+    board.update_position(Position(0, 0), DhungaType.x)
+    board.update_position(Position(1, 1), DhungaType.o)
+    print(board)
+    assert SolutionHelper.check_diaognals(
+        Position(0, 0), board.positions, DhungaType.x
+    ) == ([], [])
+    assert SolutionHelper.check_diaognals(
+        Position(2, 2), board.positions, DhungaType.x
+    ) == ([Position(0, 0)], [])
+    # switch dhungas
+    board.update_position(Position(0, 7), DhungaType.o)
+    board.update_position(Position(1, 6), DhungaType.x)
+    print(board)
+    assert SolutionHelper.check_diaognals(
+        Position(0, 7), board.positions, DhungaType.o
+    ) == ([], [])
+    assert SolutionHelper.check_diaognals(
+        Position(2, 5), board.positions, DhungaType.o
+    ) == ([], [Position(0, 7)])
 
 
 def test_get_diagolans_as_row() -> None:
@@ -115,3 +136,9 @@ def test_get_diagolans_as_row() -> None:
         0,
     )
     assert SolutionHelper.get_diagonals_as_row(matrix, pos) == expected
+
+
+def test_get_column_as_row() -> None:
+    matrix = [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1], [6, 7, 8, 9, 0]]
+    expected = [[1, 5, 6], [2, 4, 7], [3, 3, 8], [4, 2, 9], [5, 1, 0]]
+    assert SolutionHelper.get_matrix_col(matrix, 2) == expected[2]

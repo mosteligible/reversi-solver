@@ -4,3 +4,6 @@ install-dependencies:
 
 test:
 	pytest -v
+
+solve:
+	python3 main.py

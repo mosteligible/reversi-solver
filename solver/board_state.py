@@ -1,3 +1,4 @@
+import config
 from typing import List
 from constants import DhungaType
 from .position import Position
@@ -7,8 +8,9 @@ from .solution_helpers import SolutionHelper
 
 class BoardState:
     def __init__(self, size: int = 8) -> None:
+        config.BOARD_SIZE = size
         self.size = size
-        self.positions: List[DhungaType] = [[None] * size for i in range(size)]
+        self.positions: List[List[DhungaType]] = [[None] * size for i in range(size)]
         self.__setup_board()
 
     def __setup_board(self) -> None:
@@ -32,6 +34,12 @@ class BoardState:
         for pos_to_update in played_position.get_positions_to_swtich():
             self.update_position(pos_to_update, played_position.dhunga)
         self.update_position(played_position.position, played_position.dhunga)
+
+    @staticmethod
+    def load_board(positions: List[List[DhungaType]]) -> "BoardState":
+        board = BoardState(size=config.BOARD_SIZE)
+        board.positions = positions
+        return board
 
     def __str__(self) -> str:
         retval = "   ".join([f"{i}" for i in range(self.size)])

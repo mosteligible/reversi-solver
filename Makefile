@@ -3,7 +3,13 @@ install-dependencies:
 	pip install pytest
 
 test:
-	pytest -v
+	pytest -v; \
+	echo ""; \
+	echo "Running go tests.." ; \
+	cd solver-go && go test ./...
 
 solve:
 	python3 main.py
+
+solve-go:
+	cd solver-go && go build && ./reversi_solver

@@ -10,6 +10,6 @@ func main() {
 	fmt.Println("-------------- BEGIN --------------")
 	start := time.Now()
 	st := gameplay.NewSolutionTree(5)
-	st.SolveLinear(13)
+	st.SolveLinear(15)
 	fmt.Printf("taken time: %v", time.Since(start))
 }

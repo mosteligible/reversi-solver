@@ -25,7 +25,6 @@ class SolutionTree:
                 board_state=self.board_state,
             )
             node.board_state.update(move)
-            # node.add_childrens()
             self.children.append(node)
 
     def update_children(self, node: Node, level: int) -> bool:
@@ -37,8 +36,6 @@ class SolutionTree:
         """
         if node.leaf_node:
             print(f"level: {node.level} leaf node: {node.leaf_node}")
-            # print(node.board_state)
-            # print(f"{'x'*60}")
             return node.leaf_node
         if node.level + 1 == level:
             config.NODES += len(node.childrens)

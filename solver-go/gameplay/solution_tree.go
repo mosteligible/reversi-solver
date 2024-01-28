@@ -21,7 +21,6 @@ func NewSolutionTree(size int8) SolutionTree {
 	for _, move := range playableMoves {
 		node := node.NewNode(move.Pos, constants.X, 0, board) // .Node{NodeType: move.NodeType, Level: 0, Board: board}
 		node.Board.Update(move)
-		// node.AddChildren()
 		childNodes = append(childNodes, node)
 	}
 	return SolutionTree{Children: childNodes, BoardState: board}
@@ -38,15 +37,12 @@ func (st *SolutionTree) SolveLinear(toLevel int) {
 	nextNodes := []node.Node{}
 	fmt.Println(st.BoardState.ToString())
 	for level := 1; level < toLevel; level++ {
-		fmt.Printf("-- level %d - num-nodes: %d - nextNodes: %d - numLeafNodes: %d\nleaf node: ", level, len(currentNodes), len(nextNodes), config.NumLeafNodes)
+		fmt.Printf("-- level %d - num-nodes: %d - nextNodes: %d - numLeafNodes: %d\n", level, len(currentNodes), len(nextNodes), config.NumLeafNodes)
 		for _, childNode := range currentNodes {
-
-			// fmt.Printf("%v ", childNode.LeafNode)
 			if childNode.LeafNode {
 				continue
 			}
 			childNode.AddChildren()
-			// fmt.Printf("%d ", len(childNode.Childrens))
 			nextNodes = append(nextNodes, childNode.Childrens...)
 		}
 		fmt.Println("")

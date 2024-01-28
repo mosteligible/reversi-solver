@@ -43,12 +43,11 @@ func (n *Node) AddChildren() bool {
 	if len(playableMoves) == 0 {
 		n.LeafNode = true
 		config.NumLeafNodes += 1
-		// fmt.Println(n.Board.ToString())
 		return n.LeafNode
 	}
 	n.Childrens = []Node{}
 	for _, move := range playableMoves {
-		childNode := NewNode(move.Pos, nodeType, n.Level+1, n.Board) //Node{NodeType: nodeType, Level: n.Level + 1, Board: board}
+		childNode := NewNode(move.Pos, nodeType, n.Level+1, n.Board)
 		childNode.Board.Update(move)
 		n.Childrens = append(n.Childrens, childNode)
 	}

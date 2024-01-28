@@ -12,4 +12,5 @@ solve:
 	python3 main.py
 
 solve-go:
+	go version; \
 	cd solver-go && go build && ./reversi_solver

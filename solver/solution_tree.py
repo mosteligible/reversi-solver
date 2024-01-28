@@ -73,7 +73,9 @@ class SolutionTree:
             if leaf_counts == len(self.children):
                 break
             level += 1
-        print(f"-- all leaf nodes by level: {level} for {config.BOARD_SIZE}x{config.BOARD_SIZE}")
+        print(
+            f"-- all leaf nodes by level: {level} for {config.BOARD_SIZE}x{config.BOARD_SIZE}"
+        )
 
     def update_childrens_to_current_nodes(self) -> None:
         ...
@@ -83,7 +85,9 @@ class SolutionTree:
         level = 1
         self.next_nodes: List[Node] = []
         while level < num_levels:
-            print(f"-- level: {level} - num-curr-nodes: {len(self.current_nodes)} - next_nodes: {len(self.next_nodes)} - leaf_nodes: {config.LEAF_NODES}")
+            print(
+                f"-- level: {level} - num-curr-nodes: {len(self.current_nodes)} - next_nodes: {len(self.next_nodes)} - leaf_nodes: {config.LEAF_NODES}"
+            )
             for child_node in self.current_nodes:
                 child_node.add_childrens()
                 if child_node.leaf_node:

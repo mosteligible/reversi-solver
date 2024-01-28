@@ -18,7 +18,9 @@ class RootNode:
 
 
 class Node:
-    def __init__(self,pos: Position, dhunga: DhungaType, level: int, board_state: BoardState) -> None:
+    def __init__(
+        self, pos: Position, dhunga: DhungaType, level: int, board_state: BoardState
+    ) -> None:
         """
         A node in a SolutionTree.
 

@@ -99,6 +99,16 @@ func TestGetDiagonals(t *testing.T) {
 	if pos1 != 0 || pos2 != 1 {
 		t.Errorf("index of positional elements wrong!")
 	}
+
+	pos = core.Position{RowNum: 0, ColNum: 4}
+	expected_diag1 = []int8{5}
+	expected_diag2 = []int8{21, 17, 13, 9, 5}
+	diag1, pos1, diag2, pos2 = GetDiaognalsAsRow(positions, pos)
+	assertSlicesEqual[int8](expected_diag1, diag1)
+	assertSlicesEqual[int8](expected_diag2, diag2)
+	if pos1 != 0 || pos2 != 4 {
+		t.Errorf("index of positional elements wrong! pos1(%d, 0) - pos2(%d, 4)", pos1, pos2)
+	}
 }
 
 func TestGetColumn(t *testing.T) {

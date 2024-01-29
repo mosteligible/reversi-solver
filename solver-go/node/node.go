@@ -56,6 +56,7 @@ func (n *Node) AddChildren() bool {
 
 func (n *Node) ToString() string {
 	return fmt.Sprintf(
-		"Node(pos: %s, level: %d, nodeType: %d, leafNode: %v childrens: %v)", n.Pos.ToString(), n.Level, n.NodeType, n.LeafNode, n.Childrens,
+		"Node(pos: %s, level: %d, nodeType: %d, leafNode: %v, childrens: %v)",
+		n.Pos.ToString(), n.Level, n.NodeType, n.LeafNode, n.Childrens,
 	)
 }
